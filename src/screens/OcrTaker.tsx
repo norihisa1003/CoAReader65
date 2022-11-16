@@ -34,13 +34,13 @@ export const OcrTaker = ({route, navigation}: Props) => {
       if (camera) {
         const options = {quality: 1.0, base64: true};
         const data = await camera.current?.takePictureAsync(options);
-        const newPath = 'file:///storage/emulated/0/Pictures/test.jpg';
+        const newPath = '/storage/emulated/0/Pictures/test.jpg';
         if (data) {
           console.log(data.uri);
-          // await RNFS.moveFile(data.uri, newPath);
-          // const exists = await RNFS.exists(newPath);
-          // console.log(exists);
-          await recognizeTextFromImage(data.uri);
+          await RNFS.moveFile(data.uri, newPath);
+          const exists = await RNFS.exists(newPath);
+          console.log(exists);
+          await recognizeTextFromImage(newPath);
           navigation.navigate('ValueEditer');
         }
       }

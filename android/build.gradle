@@ -5,7 +5,7 @@ buildscript {
         buildToolsVersion = "30.0.2"
         minSdkVersion = 21
         compileSdkVersion = 30
-        targetSdkVersion = 30
+        targetSdkVersion = 29
         ndkVersion = "20.1.5948944"
     }
     repositories {
@@ -21,6 +21,15 @@ buildscript {
 
 allprojects {
     repositories {
+        all { ArtifactRepository repo ->
+              println repo.url.toString()
+              if (repo.url.toString().startsWith("https://jcenter.bintray.com/")) {
+                  project.logger.warn "Repository ${repo.url} removed."
+                  remove repo
+                  mavenCentral()
+              }
+        }
+        gradlePluginPortal() // add this if you get further errors 
         mavenCentral()
         mavenLocal()
         maven {
